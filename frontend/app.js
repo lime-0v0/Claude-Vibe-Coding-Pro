@@ -159,7 +159,7 @@ function initAddForm() {
       form.status.value = "todo";
       await fetchTasks();
     } catch (e) {
-      alert("추가 실패: " + e.message);
+      showToast("추가 실패: " + e.message);
     }
   });
 }
@@ -184,7 +184,7 @@ async function openEditModal(id) {
     modal.classList.add("flex");
     form.edit_title.focus();
   } catch (e) {
-    alert("불러오기 실패: " + e.message);
+    showToast("불러오기 실패: " + e.message);
     startPolling();
   }
 }
@@ -217,7 +217,7 @@ function initEditModal() {
       closeEditModal();
       await fetchTasks();
     } catch (e) {
-      alert("수정 실패: " + e.message);
+      showToast("수정 실패: " + e.message);
     }
   });
 
@@ -251,7 +251,7 @@ function initDeleteModal() {
       closeDeleteModal();
       await fetchTasks();
     } catch (e) {
-      alert("삭제 실패: " + e.message);
+      showToast("삭제 실패: " + e.message);
     }
   });
 
@@ -281,6 +281,36 @@ function initFilterTabs() {
       fetchTasks();
     });
   });
+}
+
+// ── 토스트 알림 ───────────────────────────────────────────────────────────────
+function showToast(message, type = "error") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+
+  const colorMap = {
+    error:   "bg-red-500 text-white",
+    success: "bg-emerald-500 text-white",
+    info:    "bg-slate-700 text-white dark:bg-slate-200 dark:text-slate-900",
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `
+    pointer-events-auto px-4 py-2.5 rounded-xl text-sm font-medium shadow-lg
+    translate-y-2 opacity-0 transition-all duration-300
+    ${colorMap[type] ?? colorMap.error}
+  `.trim();
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.remove("translate-y-2", "opacity-0");
+  });
+
+  setTimeout(() => {
+    toast.classList.add("translate-y-2", "opacity-0");
+    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+  }, 3000);
 }
 
 // ── 유틸 ──────────────────────────────────────────────────────────────────────
