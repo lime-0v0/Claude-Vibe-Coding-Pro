@@ -52,11 +52,13 @@ taskflow2/
 │   │   └── test_tasks.py       # pytest 테스트
 │   ├── requirements.txt
 │   └── .env                    # 환경 변수 (git 제외)
-└── frontend/
-    ├── index.html              # 단일 페이지
-    ├── app.js                  # 메인 JS (상태·렌더·이벤트)
-    ├── api.js                  # API 호출 모듈
-    └── style.css               # Tailwind 커스텀 (최소화)
+├── frontend/
+│   ├── index.html              # 단일 페이지
+│   ├── app.js                  # 메인 JS (상태·렌더·이벤트)
+│   ├── api.js                  # API 호출 모듈
+│   └── style.css               # Tailwind 커스텀 (최소화)
+└── tests/
+    └── screenshots/            # Playwright 등 브라우저 테스트 스크린샷
 ```
 
 > 이 구조를 무단으로 변경하지 않는다. 변경이 필요하면 사유를 설명하고 승인을 받는다. (`03-design.md` 의존성 정책 참고)
@@ -84,6 +86,9 @@ pytest tests/ -v
 
 **커버리지 기준**: CRUD 5개 엔드포인트 × 3케이스 = 최소 15개 테스트 통과.
 테스트 없이 구현 완료로 간주하지 않는다. (절대 규칙 3번)
+
+**Playwright 스크린샷**: 브라우저 자동화 테스트 중 캡처한 이미지는 `tests/screenshots/`에 저장한다.
+루트 또는 기타 위치에 방치하지 않는다.
 
 ---
 
